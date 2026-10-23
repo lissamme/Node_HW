@@ -1,0 +1,7 @@
+{
+  "name": "node-hw-10",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {"start": "node index.js"},
+  "dependencies": {"bcrypt": "^6.0.0", "dotenv": "^16.4.5", "express": "^5.1.0", "jsonwebtoken": "^9.0.2"}
+}
