@@ -1,0 +1,12 @@
+{
+  "name": "hw-23-typescript",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "start": "npm run build && node dist/main.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
