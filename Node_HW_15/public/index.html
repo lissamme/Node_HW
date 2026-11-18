@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.io Chat</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #f2f5fa; margin: 0; padding: 40px 16px; }
+    main { max-width: 540px; margin: auto; background: white; border-radius: 12px; padding: 28px; box-shadow: 0 5px 22px #0001; }
+    h1 { margin-top: 0; }
+    #status { color: #666; margin-bottom: 20px; }
+    form { display: flex; gap: 8px; }
+    input { flex: 1; min-width: 0; padding: 12px; border: 1px solid #bbb; border-radius: 6px; }
+    button { padding: 12px 16px; border: 0; border-radius: 6px; background: #2563eb; color: white; cursor: pointer; }
+    button:disabled { opacity: .5; cursor: not-allowed; }
+    #messages { list-style: none; padding: 0; margin: 20px 0 0; }
+    #messages li { padding: 10px; margin: 8px 0; border-radius: 6px; background: #edf3ff; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Socket.io Chat</h1>
+    <p id="status">Connecting...</p>
+    <form id="messageForm">
+      <input id="messageInput" type="text" placeholder="Type your message..." maxlength="1000" required>
+      <button id="sendButton" type="submit" disabled>Send Message</button>
+    </form>
+    <ul id="messages" aria-live="polite"></ul>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const form = document.getElementById("messageForm");
+    const input = document.getElementById("messageInput");
+    const messages = document.getElementById("messages");
+    const status = document.getElementById("status");
+    const button = document.getElementById("sendButton");
+
+    socket.on("connect", () => {
+      status.textContent = "Connected to server";
+      button.disabled = false;
+    });
+
+    socket.on("disconnect", () => {
+      status.textContent = "Disconnected. Reconnecting...";
+      button.disabled = true;
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text || !socket.connected) return;
+      socket.emit("message", text);
+      input.value = "";
+      input.focus();
+    });
+
+    socket.on("confirmation", (text) => {
+      const item = document.createElement("li");
+      item.textContent = text;
+      messages.appendChild(item);
+    });
+  </script>
+</body>
+</html>

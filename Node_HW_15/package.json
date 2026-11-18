@@ -1,0 +1,13 @@
+{
+  "name": "hw15-socketio-chat",
+  "version": "1.0.0",
+  "description": "Homework 15 - Express and Socket.io chat",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
